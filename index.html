@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>简洁录屏工具</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header>
+        <h1>桌面录屏助手</h1>
+        <p>支持系统声音 / 麦克风、头像覆盖、白板标注、可调录制尺寸。</p>
+      </header>
+
+      <section class="controls">
+        <div class="control-group">
+          <label for="resolution">录制尺寸</label>
+          <select id="resolution">
+            <option value="1">100% 原始尺寸</option>
+            <option value="0.75">75%</option>
+            <option value="0.5">50%</option>
+          </select>
+        </div>
+
+        <div class="control-group toggles">
+          <label><input id="sysAudio" type="checkbox" checked /> 录制系统声音</label>
+          <label><input id="micAudio" type="checkbox" checked /> 录制麦克风</label>
+          <label><input id="whiteboardToggle" type="checkbox" /> 开启白板</label>
+        </div>
+
+        <div class="control-group">
+          <label for="avatarShape">头像形状</label>
+          <select id="avatarShape">
+            <option value="circle">圆形</option>
+            <option value="ellipse">椭圆</option>
+          </select>
+          <label for="avatarSize">头像大小</label>
+          <input id="avatarSize" type="range" min="80" max="280" value="160" />
+        </div>
+
+        <div class="control-group">
+          <button id="startBtn">开始录制</button>
+          <button id="stopBtn" disabled>停止录制</button>
+          <a id="downloadLink" class="hidden" download="recording.webm">下载录制文件</a>
+        </div>
+      </section>
+
+      <section class="stage-wrap">
+        <div id="stage" class="stage" title="拖动头像区域可以调整位置">
+          <video id="screenVideo" autoplay muted playsinline></video>
+          <canvas id="whiteboard" class="hidden"></canvas>
+          <div id="avatarBox" class="avatar circle" style="left: 24px; top: 24px; width: 160px; height: 160px;">
+            <video id="avatarVideo" autoplay muted playsinline></video>
+          </div>
+        </div>
+      </section>
+
+      <section class="whiteboard-tools hidden" id="whiteboardTools">
+        <label>画笔颜色 <input id="penColor" type="color" value="#ff4d4f" /></label>
+        <label>画笔粗细 <input id="penWidth" type="range" min="1" max="16" value="4" /></label>
+        <button id="clearBoard">清空白板</button>
+      </section>
+
+      <p class="tips">提示：开始录制后，在系统弹窗勾选“共享系统音频”才能采集内置播放声音。</p>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
