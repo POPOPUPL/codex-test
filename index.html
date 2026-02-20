@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Desktop Recorder</title>
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
@@ -9,12 +14,17 @@
   <body>
     <main class="app">
       <header>
+        <h1>Desktop Recording Studio</h1>
+        <p>Capture screen, system audio, microphone, avatar overlay, and a toggleable front whiteboard.</p>
         <h1>桌面录屏助手</h1>
         <p>支持系统声音 / 麦克风、头像覆盖、白板标注、可调录制尺寸。</p>
       </header>
 
       <section class="controls">
         <div class="control-group">
+          <label for="resolution">Recording size</label>
+          <select id="resolution">
+            <option value="1">100% Original</option>
           <label for="resolution">录制尺寸</label>
           <select id="resolution">
             <option value="1">100% 原始尺寸</option>
@@ -24,6 +34,18 @@
         </div>
 
         <div class="control-group toggles">
+          <label><input id="sysAudio" type="checkbox" checked /> System audio</label>
+          <label><input id="micAudio" type="checkbox" checked /> Microphone</label>
+          <label><input id="whiteboardToggle" type="checkbox" /> Enable whiteboard</label>
+        </div>
+
+        <div class="control-group">
+          <label for="avatarShape">Avatar shape</label>
+          <select id="avatarShape">
+            <option value="circle">Circle</option>
+            <option value="ellipse">Ellipse</option>
+          </select>
+          <label for="avatarSize">Avatar size</label>
           <label><input id="sysAudio" type="checkbox" checked /> 录制系统声音</label>
           <label><input id="micAudio" type="checkbox" checked /> 录制麦克风</label>
           <label><input id="whiteboardToggle" type="checkbox" /> 开启白板</label>
@@ -40,6 +62,9 @@
         </div>
 
         <div class="control-group">
+          <button id="startBtn">Start recording</button>
+          <button id="stopBtn" disabled>Stop</button>
+          <a id="downloadLink" class="hidden" download="recording.webm">Download recording</a>
           <button id="startBtn">开始录制</button>
           <button id="stopBtn" disabled>停止录制</button>
           <a id="downloadLink" class="hidden" download="recording.webm">下载录制文件</a>
@@ -47,6 +72,12 @@
       </section>
 
       <section class="stage-wrap">
+        <div id="stage" class="stage" title="Drag avatar to reposition">
+          <video id="screenVideo" autoplay muted playsinline></video>
+          <div id="avatarBox" class="avatar circle" style="left: 24px; top: 24px; width: 160px; height: 160px;">
+            <video id="avatarVideo" autoplay muted playsinline></video>
+          </div>
+          <canvas id="whiteboard" class="hidden"></canvas>
         <div id="stage" class="stage" title="拖动头像区域可以调整位置">
           <video id="screenVideo" autoplay muted playsinline></video>
           <canvas id="whiteboard" class="hidden"></canvas>
@@ -57,6 +88,12 @@
       </section>
 
       <section class="whiteboard-tools hidden" id="whiteboardTools">
+        <label>Pen color <input id="penColor" type="color" value="#e84a5f" /></label>
+        <label>Pen width <input id="penWidth" type="range" min="1" max="16" value="4" /></label>
+        <button id="clearBoard">Clear board</button>
+      </section>
+
+      <p class="tips">Tip: in the browser share dialog, enable system audio sharing to capture internal playback.</p>
         <label>画笔颜色 <input id="penColor" type="color" value="#ff4d4f" /></label>
         <label>画笔粗细 <input id="penWidth" type="range" min="1" max="16" value="4" /></label>
         <button id="clearBoard">清空白板</button>

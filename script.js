@@ -72,6 +72,15 @@ function resizeBoardToStage() {
   const stage = document.getElementById('stage');
   whiteboard.width = stage.clientWidth;
   whiteboard.height = stage.clientHeight;
+
+  if (whiteboardToggle.checked) {
+    fillWhiteboardBase();
+  }
+}
+
+function fillWhiteboardBase() {
+  boardCtx.fillStyle = '#ffffff';
+  boardCtx.fillRect(0, 0, whiteboard.width, whiteboard.height);
 }
 
 function boardPos(event) {
@@ -84,6 +93,7 @@ function initWhiteboard() {
   window.addEventListener('resize', resizeBoardToStage);
 
   whiteboard.addEventListener('pointerdown', (event) => {
+    if (!whiteboardToggle.checked) return;
     drawing = true;
     lastPoint = boardPos(event);
   });
@@ -109,6 +119,17 @@ function initWhiteboard() {
   });
 
   clearBoard.addEventListener('click', () => {
+    fillWhiteboardBase();
+  });
+
+  whiteboardToggle.addEventListener('change', () => {
+    const enabled = whiteboardToggle.checked;
+    whiteboard.classList.toggle('hidden', !enabled);
+    whiteboardTools.classList.toggle('hidden', !enabled);
+
+    if (enabled) {
+      fillWhiteboardBase();
+    }
     boardCtx.clearRect(0, 0, whiteboard.width, whiteboard.height);
   });
 
@@ -177,6 +198,10 @@ async function startCapture() {
     ctx.clip();
     ctx.drawImage(avatarVideo, ax, ay, aw, ah);
     ctx.restore();
+
+    if (whiteboardToggle.checked) {
+      ctx.drawImage(whiteboard, 0, 0, compose.width, compose.height);
+    }
   }, 33);
 
   const videoTrack = compose.captureStream(30).getVideoTracks()[0];
@@ -237,6 +262,7 @@ startBtn.addEventListener('click', async () => {
     await startCapture();
   } catch (error) {
     console.error(error);
+    alert(`Failed to start recording: ${error.message}`);
     alert(`启动录制失败：${error.message}`);
   }
 });

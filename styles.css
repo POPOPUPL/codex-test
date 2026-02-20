@@ -1,10 +1,13 @@
 :root {
   color-scheme: light;
+  font-family: "Inter", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
   font-family: "PingFang SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 body {
   margin: 0;
+  background: #f5e8c8;
+  color: #3f2f1f;
   background: #f3f5f9;
   color: #1f2a37;
 }
@@ -21,6 +24,7 @@ header h1 {
 
 header p {
   margin: 8px 0 18px;
+  color: #6a5237;
   color: #4a5b70;
 }
 
@@ -29,6 +33,10 @@ header p {
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
+  background: #fff8e8;
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: 0 4px 14px rgba(115, 86, 43, 0.1);
   background: #fff;
   border-radius: 12px;
   padding: 14px;
@@ -48,6 +56,7 @@ header p {
 }
 
 .toggles label {
+  background: #f8efd9;
   background: #eef4ff;
   padding: 6px 10px;
   border-radius: 8px;
@@ -57,6 +66,15 @@ button,
 select,
 input[type="color"],
 input[type="range"] {
+  border: 1px solid #d4b787;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 14px;
+  background: #fffdf6;
+}
+
+button {
+  background: #b98242;
   border: 1px solid #cfd7e6;
   border-radius: 8px;
   padding: 8px 10px;
@@ -77,6 +95,11 @@ button[disabled] {
 }
 
 #stopBtn {
+  background: #c65b4a;
+}
+
+#downloadLink {
+  background: #4f9f65;
   background: #ea4b4b;
 }
 
@@ -89,6 +112,10 @@ button[disabled] {
 }
 
 .stage-wrap {
+  background: #fff8e8;
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: 0 4px 14px rgba(115, 86, 43, 0.1);
   background: #fff;
   border-radius: 12px;
   padding: 14px;
@@ -100,6 +127,7 @@ button[disabled] {
   max-width: 960px;
   aspect-ratio: 16 / 9;
   margin: 0 auto;
+  background: #19140d;
   background: #111827;
   border-radius: 10px;
   position: relative;
@@ -113,6 +141,11 @@ button[disabled] {
   object-fit: contain;
   position: absolute;
   inset: 0;
+}
+
+#whiteboard {
+  z-index: 4;
+  background: #ffffff;
 }
 
 .avatar {
@@ -148,5 +181,6 @@ button[disabled] {
 
 .tips {
   font-size: 13px;
+  color: #6e583e;
   color: #5f6f84;
 }
