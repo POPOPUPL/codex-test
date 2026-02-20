@@ -15,8 +15,6 @@ const whiteboardTools = document.getElementById('whiteboardTools');
 const penColor = document.getElementById('penColor');
 const penWidth = document.getElementById('penWidth');
 const clearBoard = document.getElementById('clearBoard');
-const pipBtn = document.getElementById('pipBtn');
-const pipVideo = document.getElementById('pipVideo');
 
 let screenStream;
 let micStream;
@@ -24,7 +22,6 @@ let avatarStream;
 let recorder;
 let mixedStream;
 let drawTimer;
-let composedPreviewStream;
 let chunks = [];
 
 const boardCtx = whiteboard.getContext('2d');
@@ -133,6 +130,12 @@ function initWhiteboard() {
     if (enabled) {
       fillWhiteboardBase();
     }
+    boardCtx.clearRect(0, 0, whiteboard.width, whiteboard.height);
+  });
+
+  whiteboardToggle.addEventListener('change', () => {
+    whiteboard.classList.toggle('hidden', !whiteboardToggle.checked);
+    whiteboardTools.classList.toggle('hidden', !whiteboardToggle.checked);
   });
 }
 
@@ -171,6 +174,10 @@ async function startCapture() {
     ctx.clearRect(0, 0, compose.width, compose.height);
     ctx.drawImage(screenVideo, 0, 0, compose.width, compose.height);
 
+    if (whiteboardToggle.checked) {
+      ctx.drawImage(whiteboard, 0, 0, compose.width, compose.height);
+    }
+
     const stageRect = stage.getBoundingClientRect();
     const avatarRect = avatarBox.getBoundingClientRect();
 
@@ -197,11 +204,7 @@ async function startCapture() {
     }
   }, 33);
 
-  composedPreviewStream = compose.captureStream(30);
-  pipVideo.srcObject = composedPreviewStream;
-  await pipVideo.play();
-
-  const videoTrack = composedPreviewStream.getVideoTracks()[0];
+  const videoTrack = compose.captureStream(30).getVideoTracks()[0];
   const audioContext = new AudioContext();
   const destination = audioContext.createMediaStreamDestination();
 
@@ -239,50 +242,19 @@ async function startCapture() {
   recorder.start(1000);
   startBtn.disabled = true;
   stopBtn.disabled = false;
-  pipBtn.disabled = false;
 }
 
-async function stopCapture() {
+function stopCapture() {
   stopBtn.disabled = true;
   startBtn.disabled = false;
-  pipBtn.disabled = true;
 
   recorder?.stop();
   [screenStream, micStream, avatarStream, mixedStream].forEach((stream) => {
     stream?.getTracks().forEach((track) => track.stop());
   });
 
-  if (document.pictureInPictureElement) {
-    await document.exitPictureInPicture();
-  }
-
   screenVideo.srcObject = null;
   avatarVideo.srcObject = null;
-  pipVideo.srcObject = null;
-}
-
-
-async function toggleAlwaysOnTop() {
-  if (!document.pictureInPictureEnabled) {
-    alert('Picture-in-Picture is not supported in this browser.');
-    return;
-  }
-
-  if (!pipVideo.srcObject) {
-    alert('Start recording first, then enable always-on-top preview.');
-    return;
-  }
-
-  try {
-    if (document.pictureInPictureElement) {
-      await document.exitPictureInPicture();
-      return;
-    }
-
-    await pipVideo.requestPictureInPicture();
-  } catch (error) {
-    alert(`Unable to open always-on-top preview: ${error.message}`);
-  }
 }
 
 startBtn.addEventListener('click', async () => {
@@ -291,13 +263,11 @@ startBtn.addEventListener('click', async () => {
   } catch (error) {
     console.error(error);
     alert(`Failed to start recording: ${error.message}`);
+    alert(`启动录制失败：${error.message}`);
   }
 });
 
-stopBtn.addEventListener('click', () => {
-  stopCapture();
-});
-pipBtn.addEventListener('click', toggleAlwaysOnTop);
+stopBtn.addEventListener('click', stopCapture);
 avatarShape.addEventListener('change', updateAvatarShape);
 avatarSize.addEventListener('input', updateAvatarSize);
 
