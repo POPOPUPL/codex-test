@@ -3,79 +3,103 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Desktop Recorder Pro</title>
+    <title>Desktop Recorder</title>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>简洁录屏工具</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main class="app-shell">
-      <section class="topbar glass-card">
-        <div>
-          <p class="eyebrow">NEW STYLE</p>
-          <h1>Desktop Recorder Pro</h1>
-          <p class="subtitle">Fast recording with system audio, microphone, floating avatar, and full whiteboard mode.</p>
+    <main class="app">
+      <header>
+        <h1>Desktop Recording Studio</h1>
+        <p>Capture screen, system audio, microphone, avatar overlay, and a toggleable front whiteboard.</p>
+        <h1>桌面录屏助手</h1>
+        <p>支持系统声音 / 麦克风、头像覆盖、白板标注、可调录制尺寸。</p>
+      </header>
+
+      <section class="controls">
+        <div class="control-group">
+          <label for="resolution">Recording size</label>
+          <select id="resolution">
+            <option value="1">100% Original</option>
+          <label for="resolution">录制尺寸</label>
+          <select id="resolution">
+            <option value="1">100% 原始尺寸</option>
+            <option value="0.75">75%</option>
+            <option value="0.5">50%</option>
+          </select>
         </div>
-        <div class="status-pill">Ready to capture</div>
+
+        <div class="control-group toggles">
+          <label><input id="sysAudio" type="checkbox" checked /> System audio</label>
+          <label><input id="micAudio" type="checkbox" checked /> Microphone</label>
+          <label><input id="whiteboardToggle" type="checkbox" /> Enable whiteboard</label>
+        </div>
+
+        <div class="control-group">
+          <label for="avatarShape">Avatar shape</label>
+          <select id="avatarShape">
+            <option value="circle">Circle</option>
+            <option value="ellipse">Ellipse</option>
+          </select>
+          <label for="avatarSize">Avatar size</label>
+          <label><input id="sysAudio" type="checkbox" checked /> 录制系统声音</label>
+          <label><input id="micAudio" type="checkbox" checked /> 录制麦克风</label>
+          <label><input id="whiteboardToggle" type="checkbox" /> 开启白板</label>
+        </div>
+
+        <div class="control-group">
+          <label for="avatarShape">头像形状</label>
+          <select id="avatarShape">
+            <option value="circle">圆形</option>
+            <option value="ellipse">椭圆</option>
+          </select>
+          <label for="avatarSize">头像大小</label>
+          <input id="avatarSize" type="range" min="80" max="280" value="160" />
+        </div>
+
+        <div class="control-group">
+          <button id="startBtn">Start recording</button>
+          <button id="stopBtn" disabled>Stop</button>
+          <a id="downloadLink" class="hidden" download="recording.webm">Download recording</a>
+          <button id="startBtn">开始录制</button>
+          <button id="stopBtn" disabled>停止录制</button>
+          <a id="downloadLink" class="hidden" download="recording.webm">下载录制文件</a>
+        </div>
       </section>
 
-      <section class="layout-grid">
-        <aside class="control-panel glass-card">
-          <h2>Recording Controls</h2>
-
-          <div class="field">
-            <label for="resolution">Output Size</label>
-            <select id="resolution">
-              <option value="1">100% Original</option>
-              <option value="0.75">75%</option>
-              <option value="0.5">50%</option>
-            </select>
+      <section class="stage-wrap">
+        <div id="stage" class="stage" title="Drag avatar to reposition">
+          <video id="screenVideo" autoplay muted playsinline></video>
+          <div id="avatarBox" class="avatar circle" style="left: 24px; top: 24px; width: 160px; height: 160px;">
+            <video id="avatarVideo" autoplay muted playsinline></video>
           </div>
-
-          <div class="field check-grid">
-            <label class="toggle"><input id="sysAudio" type="checkbox" checked />System audio</label>
-            <label class="toggle"><input id="micAudio" type="checkbox" checked />Microphone</label>
-            <label class="toggle"><input id="whiteboardToggle" type="checkbox" />Whiteboard mode</label>
+          <canvas id="whiteboard" class="hidden"></canvas>
+        <div id="stage" class="stage" title="拖动头像区域可以调整位置">
+          <video id="screenVideo" autoplay muted playsinline></video>
+          <canvas id="whiteboard" class="hidden"></canvas>
+          <div id="avatarBox" class="avatar circle" style="left: 24px; top: 24px; width: 160px; height: 160px;">
+            <video id="avatarVideo" autoplay muted playsinline></video>
           </div>
-
-          <div class="field inline">
-            <label for="avatarShape">Avatar Shape</label>
-            <select id="avatarShape">
-              <option value="circle">Circle</option>
-              <option value="ellipse">Ellipse</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="avatarSize">Avatar Size</label>
-            <input id="avatarSize" type="range" min="80" max="280" value="160" />
-          </div>
-
-          <div class="actions">
-            <button id="startBtn">Start Recording</button>
-            <button id="stopBtn" disabled>Stop</button>
-            <a id="downloadLink" class="hidden" download="recording.webm">Download Video</a>
-          </div>
-
-          <p class="tip">Tip: In browser share dialog, enable system audio to include desktop playback.</p>
-        </aside>
-
-        <section class="preview-panel glass-card">
-          <h2>Live Preview</h2>
-          <div id="stage" class="stage" title="Drag avatar to reposition">
-            <video id="screenVideo" autoplay muted playsinline></video>
-            <div id="avatarBox" class="avatar circle" style="left: 24px; top: 24px; width: 160px; height: 160px;">
-              <video id="avatarVideo" autoplay muted playsinline></video>
-            </div>
-            <canvas id="whiteboard" class="hidden"></canvas>
-          </div>
-        </section>
+        </div>
       </section>
 
-      <section class="whiteboard-tools glass-card hidden" id="whiteboardTools">
-        <h3>Whiteboard Tools</h3>
-        <label>Pen Color <input id="penColor" type="color" value="#e84a5f" /></label>
-        <label>Pen Width <input id="penWidth" type="range" min="1" max="16" value="4" /></label>
-        <button id="clearBoard">Clear Whiteboard</button>
+      <section class="whiteboard-tools hidden" id="whiteboardTools">
+        <label>Pen color <input id="penColor" type="color" value="#e84a5f" /></label>
+        <label>Pen width <input id="penWidth" type="range" min="1" max="16" value="4" /></label>
+        <button id="clearBoard">Clear board</button>
       </section>
+
+      <p class="tips">Tip: in the browser share dialog, enable system audio sharing to capture internal playback.</p>
+        <label>画笔颜色 <input id="penColor" type="color" value="#ff4d4f" /></label>
+        <label>画笔粗细 <input id="penWidth" type="range" min="1" max="16" value="4" /></label>
+        <button id="clearBoard">清空白板</button>
+      </section>
+
+      <p class="tips">提示：开始录制后，在系统弹窗勾选“共享系统音频”才能采集内置播放声音。</p>
     </main>
 
     <script src="script.js"></script>
