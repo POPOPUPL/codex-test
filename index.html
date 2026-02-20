@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Desktop Recorder</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header>
+        <h1>Desktop Recording Studio</h1>
+        <p>Capture screen, system audio, microphone, avatar overlay, and a toggleable front whiteboard.</p>
+      </header>
+
+      <section class="controls">
+        <div class="control-group">
+          <label for="resolution">Recording size</label>
+          <select id="resolution">
+            <option value="1">100% Original</option>
+            <option value="0.75">75%</option>
+            <option value="0.5">50%</option>
+          </select>
+        </div>
+
+        <div class="control-group toggles">
+          <label><input id="sysAudio" type="checkbox" checked /> System audio</label>
+          <label><input id="micAudio" type="checkbox" checked /> Microphone</label>
+          <label><input id="whiteboardToggle" type="checkbox" /> Enable whiteboard</label>
+        </div>
+
+        <div class="control-group">
+          <label for="avatarShape">Avatar shape</label>
+          <select id="avatarShape">
+            <option value="circle">Circle</option>
+            <option value="ellipse">Ellipse</option>
+          </select>
+          <label for="avatarSize">Avatar size</label>
+          <input id="avatarSize" type="range" min="80" max="280" value="160" />
+        </div>
+
+        <div class="control-group">
+          <button id="startBtn">Start recording</button>
+          <button id="stopBtn" disabled>Stop</button>
+          <a id="downloadLink" class="hidden" download="recording.webm">Download recording</a>
+        </div>
+      </section>
+
+      <section class="stage-wrap">
+        <div id="stage" class="stage" title="Drag avatar to reposition">
+          <video id="screenVideo" autoplay muted playsinline></video>
+          <div id="avatarBox" class="avatar circle" style="left: 24px; top: 24px; width: 160px; height: 160px;">
+            <video id="avatarVideo" autoplay muted playsinline></video>
+          </div>
+          <canvas id="whiteboard" class="hidden"></canvas>
+        </div>
+      </section>
+
+      <section class="whiteboard-tools hidden" id="whiteboardTools">
+        <label>Pen color <input id="penColor" type="color" value="#e84a5f" /></label>
+        <label>Pen width <input id="penWidth" type="range" min="1" max="16" value="4" /></label>
+        <button id="clearBoard">Clear board</button>
+      </section>
+
+      <p class="tips">Tip: in the browser share dialog, enable system audio sharing to capture internal playback.</p>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

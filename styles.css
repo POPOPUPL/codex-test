@@ -1,0 +1,157 @@
+:root {
+  color-scheme: light;
+  font-family: "Inter", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f5e8c8;
+  color: #3f2f1f;
+}
+
+.app {
+  max-width: 1120px;
+  margin: 24px auto;
+  padding: 20px;
+}
+
+header h1 {
+  margin: 0;
+}
+
+header p {
+  margin: 8px 0 18px;
+  color: #6a5237;
+}
+
+.controls,
+.whiteboard-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  background: #fff8e8;
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: 0 4px 14px rgba(115, 86, 43, 0.1);
+  margin-bottom: 16px;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.control-group label {
+  font-size: 14px;
+}
+
+.toggles label {
+  background: #f8efd9;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+button,
+select,
+input[type="color"],
+input[type="range"] {
+  border: 1px solid #d4b787;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 14px;
+  background: #fffdf6;
+}
+
+button {
+  background: #b98242;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+#stopBtn {
+  background: #c65b4a;
+}
+
+#downloadLink {
+  background: #4f9f65;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  padding: 9px 14px;
+}
+
+.stage-wrap {
+  background: #fff8e8;
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: 0 4px 14px rgba(115, 86, 43, 0.1);
+}
+
+.stage {
+  width: 100%;
+  max-width: 960px;
+  aspect-ratio: 16 / 9;
+  margin: 0 auto;
+  background: #19140d;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+#screenVideo,
+#whiteboard {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  position: absolute;
+  inset: 0;
+}
+
+#whiteboard {
+  z-index: 4;
+  background: #ffffff;
+}
+
+.avatar {
+  position: absolute;
+  border: 3px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  cursor: grab;
+  z-index: 3;
+}
+
+.avatar.circle {
+  border-radius: 50%;
+}
+
+.avatar.ellipse {
+  border-radius: 40% / 50%;
+}
+
+.avatar:active {
+  cursor: grabbing;
+}
+
+#avatarVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hidden {
+  display: none;
+}
+
+.tips {
+  font-size: 13px;
+  color: #6e583e;
+}
