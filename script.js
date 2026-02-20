@@ -130,6 +130,12 @@ function initWhiteboard() {
     if (enabled) {
       fillWhiteboardBase();
     }
+    boardCtx.clearRect(0, 0, whiteboard.width, whiteboard.height);
+  });
+
+  whiteboardToggle.addEventListener('change', () => {
+    whiteboard.classList.toggle('hidden', !whiteboardToggle.checked);
+    whiteboardTools.classList.toggle('hidden', !whiteboardToggle.checked);
   });
 }
 
@@ -167,6 +173,10 @@ async function startCapture() {
   drawTimer = setInterval(() => {
     ctx.clearRect(0, 0, compose.width, compose.height);
     ctx.drawImage(screenVideo, 0, 0, compose.width, compose.height);
+
+    if (whiteboardToggle.checked) {
+      ctx.drawImage(whiteboard, 0, 0, compose.width, compose.height);
+    }
 
     const stageRect = stage.getBoundingClientRect();
     const avatarRect = avatarBox.getBoundingClientRect();
@@ -253,6 +263,7 @@ startBtn.addEventListener('click', async () => {
   } catch (error) {
     console.error(error);
     alert(`Failed to start recording: ${error.message}`);
+    alert(`启动录制失败：${error.message}`);
   }
 });
 
